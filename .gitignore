@@ -1,0 +1,5 @@
+*
+!.gitignore
+!SaveManager/
+!SaveManager/Classes/
+!SaveManager/Classes/*.uc
