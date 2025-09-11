@@ -131,7 +131,7 @@ exec function DebugMarkers(bool isOn = true)
             d.DrawCheckPoint(OLCheckpoint(a));
         if (a.ISA('Trigger'))
             d.DrawTrigger(Trigger(a));
-        if (a.ISA('OLGameplayMarker'))
+        if (a.ISA('OLGameplayMarker') && !a.ISA('OLCornerMarker'))
             d.DrawGamePlayMarker(OLGameplayMarker(a));
         if (a.ISA('OLSqueezeVolume'))
             d.DrawSqueezeVolume(OLSqueezeVolume (a));
