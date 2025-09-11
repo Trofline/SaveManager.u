@@ -21,7 +21,7 @@ Function PostRender()
     super.PostRender();
     Canvas.Font = class'Engine'.Static.GetLargeFont();
 
-    DrawString("Test", Vect2D(5, 5),MakeRGBA(154,0,255,255),Vect2D(1.8, 1.8));
+    // DrawString("Test", Vect2D(5, 5),MakeRGBA(154,0,255,255),Vect2D(1.8, 1.8)); //TODO
 }
 
 Function DrawString(String String, Vector2D Loc, optional RGBA Color=MakeRGBA(200, 200, 200, 200), optional Vector2D Scale=Vect2D(1.5, 1.5), optional Bool ScaleLoc=true, optional Bool center) {
@@ -55,3 +55,11 @@ Function RGBA MakeRGBA(Byte R, Byte G, Byte B, Byte A=255) {
     Color.Alpha=A;
     return Color;
 }
+
+
+event OnLostFocusPause(bool bEnable)
+{
+    super.OnLostFocusPause(bEnable);
+}
+
+

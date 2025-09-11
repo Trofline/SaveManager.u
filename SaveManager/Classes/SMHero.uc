@@ -15,3 +15,28 @@ function TakeFallingDamage()
         super.TakeFallingDamage();
     }
 }
+
+exec function ReloadCheckpoint()
+{
+        if (LocomotionMode ==LM_Cinematic){
+        SMController(controller).StartNewGameAtCheckpoint(string(OLGame(WorldInfo.game).CurrentCheckPointName),false);
+        return;
+    }
+
+    if(DeathScreenDuration >7){
+        DeathScreenDuration =0;
+    }
+    if(LocomotionMode ==LM_Locker ||  LocomotionMode ==LM_Bed)
+    {
+        PreciseHealth =0;
+    }
+    else
+    {
+        DMGS(101);
+    }
+}
+
+private Function DMGS(Float Amount)
+{
+    TakeDamage(Amount, none, Location, Vect(0,0,0), none);
+}
