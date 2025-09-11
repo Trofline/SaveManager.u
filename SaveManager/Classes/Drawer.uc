@@ -42,3 +42,8 @@ public static function Drawer init(){
     if(lm.OtherMarker != none)
         wi.DrawDebugCylinder(lm.Location,lm.OtherMarker.Location,3,7,107,189,132,true);
 }
+
+function DrawRecordMarker(OLRecordingMarker rm)
+{
+    wi.DrawDebugSphere(rm.Location,rm.Radius,16,49, 124, 203,true);
+}

@@ -58,20 +58,21 @@ exec function FreezeEnemy(bool freeze = true)
         if(freeze && p.Modifiers.bShouldAttack)
         {
         p.Tag = 'Enemy';
-        class'EnemyUtils'.static.Init(p)
-        .SetEnemySpeed(0,0,0)
-        .EnemyAnimRate(0)
-        .getEnemy()
-        .Modifiers.bShouldAttack = false;
+        p.NormalSpeedValues.PatrolSpeed =0;
+        p.NormalSpeedValues.InvestigateSpeed =0;
+        p.NormalSpeedValues.ChaseSpeed=0;
+        p.DarknessSpeedValues.PatrolSpeed =0;
+        p.DarknessSpeedValues.InvestigateSpeed=0;
+        p.DarknessSpeedValues.ChaseSpeed=0;
+        p.mesh.GlobalAnimRateScale =0;
+        P.Modifiers.bShouldAttack = false;
         }
         else if (p.Tag == 'Enemy')
         {
         p.Tag = 'MadEnemy';
         p.UpdateDifficultyBasedValues();
-        class'EnemyUtils'.static.Init(p)
-        .EnemyAnimRate(1)
-        .getEnemy()
-        .Modifiers.bShouldAttack = true;
+        p.mesh.GlobalAnimRateScale =1;
+        P.Modifiers.bShouldAttack = true;
         }
     }
 }
@@ -136,6 +137,8 @@ exec function DebugMarkers(bool isOn = true)
             d.DrawSqueezeVolume(OLSqueezeVolume (a));
         if (a.ISA('OLLadderMarker'))
             d.DrawLadderMarker(OLLadderMarker(a));
+        if (a.ISA('OLRecordingMarker'))
+            d.DrawRecordMarker(OLRecordingMarker(a));
         }
     }
     else
@@ -160,7 +163,7 @@ exec function gamespeed(float value = 1)
 
 exec function removeDocuments(){
     local OLCollectiblePickup cpu;
-    SMHud(Hud).LatestDocumentName ='';
+    Hud.LatestDocumentName ='';
     RemoveAllDocuments();
 
     foreach AllActors(class'OLCollectiblePickup', cpu){
@@ -231,8 +234,8 @@ private function RemoveAllDocuments(){
 exec function removeRecordings(){
     local OLRecordingMarker rm;
     
-    SMHud(Hud).LatestRecordingName ='';
-    SMHud(Hud).LatestRecordingTimer =0;
+    Hud.LatestRecordingName ='';
+    Hud.LatestRecordingTimer =0;
     PendingRecordingMarker =none;
     removeAllRecords();
 
