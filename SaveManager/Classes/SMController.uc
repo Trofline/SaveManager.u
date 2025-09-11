@@ -304,7 +304,3 @@ private function removeAllRecords(){
         UnreadRecordingMoments.RemoveItem(n);
     }
 }
-
-function gittest(){
-    
-}
