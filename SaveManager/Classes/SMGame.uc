@@ -11,4 +11,5 @@ DefaultProperties
 {
     DefaultPawnClass=class'SaveManager.SMHero'
     PlayerControllerClass=Class'SaveManager.SMController'
+    HUDType =class'SaveManager.SMHud'
 }

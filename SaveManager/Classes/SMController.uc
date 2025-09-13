@@ -1,6 +1,6 @@
 class SMController extends OLPlayerController config(SMConfig);
 
-struct Position //struct = datenstruktur
+struct Position
 {
     var vector Pos;
     var Vector2D Rot;
@@ -14,14 +14,11 @@ Enum ECollision_Type
 	CT_Shimmy
 };
 
-
-
 Var config array<Position> SavedPositions;
-Var bool damage;
+Var bool damage, bShowInfo;
 var ECollision_Type Collision_Type_Override;
 
-// eigentlich unnötig...
-exec function exit() //exec = command für defaultinput
+exec function exit()
 {
     ConsoleCommand("exit");
 }
@@ -40,7 +37,6 @@ exec function SavePos(int Index = 0)
 exec function LoadPos(int Index = 0,bool setRotation = true) //in manager true/false machen 
 {
     OLHero(Pawn).SetLocation(SavedPositions[Index].Pos);
-    //DebugCamRot = SavedPositions[Index].Rot;
 
     if(SetRotation)
     {
@@ -306,53 +302,10 @@ private function removeAllRecords(){
 }
 
 exec function dummy(){
-    AddDebugText("bla", SMHero(Pawn));
+    bShowInfo = !bShowInfo;
 }
 
-simulated function DisplayDebug(HUD HUD, out float out_YL, out float out_YPos)
+defaultproperties
 {
-	local string	T;
-	local Actor		A;
-	local float MyRadius, MyHeight;
-	local Canvas Canvas;
-
-	Canvas = HUD.Canvas;
-
-	Canvas.SetPos(4, out_YPos);
-	Canvas.SetDrawColor(134, 189, 255);
-
-	T = GetDebugName();
-	if( bDeleteMe )
-	{
-		T = T$" DELETED (bDeleteMe == true)";
-	}
-
-	if( T != "" )
-	{
-		Canvas.DrawText(T, FALSE);
-		out_YPos += out_YL;
-		Canvas.SetPos(4, out_YPos);
-	}
-	
-	if( HUD.ShouldDisplayDebug('net') )
-	{
-		if( WorldInfo.NetMode != NM_Standalone )
-		{
-			// networking attributes
-			T = "ROLE:" @ Role @ "RemoteRole:" @ RemoteRole @ "NetMode:" @ WorldInfo.NetMode;
-
-			if( bTearOff )
-			{
-				T = T @ "Tear Off";
-			}
-			Canvas.DrawText(T, FALSE);
-			out_YPos += out_YL;
-			Canvas.SetPos(4, out_YPos);
-		}
-	}
-
-	Canvas.DrawText("Location:" @ Location @ "Rotation:" @ Rotation, FALSE);
-	out_YPos += out_YL;
-	Canvas.SetPos(4,out_YPos);
-
+    damage =true
 }
