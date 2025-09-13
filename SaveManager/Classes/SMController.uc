@@ -77,7 +77,7 @@ exec function FreezeEnemy(bool freeze = true)
     }
 }
 
-exec function NoDamage() //TODO
+exec function NoDamage()
 {
     Damage = !Damage;
     SMHero(Pawn).PreciseHealth = 100;
@@ -303,4 +303,56 @@ private function removeAllRecords(){
         CompletedRecordingMoments.RemoveItem(n);
         UnreadRecordingMoments.RemoveItem(n);
     }
+}
+
+exec function dummy(){
+    AddDebugText("bla", SMHero(Pawn));
+}
+
+simulated function DisplayDebug(HUD HUD, out float out_YL, out float out_YPos)
+{
+	local string	T;
+	local Actor		A;
+	local float MyRadius, MyHeight;
+	local Canvas Canvas;
+
+	Canvas = HUD.Canvas;
+
+	Canvas.SetPos(4, out_YPos);
+	Canvas.SetDrawColor(134, 189, 255);
+
+	T = GetDebugName();
+	if( bDeleteMe )
+	{
+		T = T$" DELETED (bDeleteMe == true)";
+	}
+
+	if( T != "" )
+	{
+		Canvas.DrawText(T, FALSE);
+		out_YPos += out_YL;
+		Canvas.SetPos(4, out_YPos);
+	}
+	
+	if( HUD.ShouldDisplayDebug('net') )
+	{
+		if( WorldInfo.NetMode != NM_Standalone )
+		{
+			// networking attributes
+			T = "ROLE:" @ Role @ "RemoteRole:" @ RemoteRole @ "NetMode:" @ WorldInfo.NetMode;
+
+			if( bTearOff )
+			{
+				T = T @ "Tear Off";
+			}
+			Canvas.DrawText(T, FALSE);
+			out_YPos += out_YL;
+			Canvas.SetPos(4, out_YPos);
+		}
+	}
+
+	Canvas.DrawText("Location:" @ Location @ "Rotation:" @ Rotation, FALSE);
+	out_YPos += out_YL;
+	Canvas.SetPos(4,out_YPos);
+
 }
