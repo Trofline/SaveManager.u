@@ -53,22 +53,30 @@ exec function FreezeEnemy(bool freeze = true)
     {
         if(freeze && p.Modifiers.bShouldAttack)
         {
-        p.Tag = 'Enemy';
-        p.NormalSpeedValues.PatrolSpeed =0;
-        p.NormalSpeedValues.InvestigateSpeed =0;
-        p.NormalSpeedValues.ChaseSpeed=0;
-        p.DarknessSpeedValues.PatrolSpeed =0;
-        p.DarknessSpeedValues.InvestigateSpeed=0;
-        p.DarknessSpeedValues.ChaseSpeed=0;
-        p.mesh.GlobalAnimRateScale =0;
-        P.Modifiers.bShouldAttack = false;
+            p.Tag = 'Enemy';
+            p.NormalSpeedValues.PatrolSpeed =0;
+            p.NormalSpeedValues.InvestigateSpeed =0;
+            p.NormalSpeedValues.ChaseSpeed=0;
+            p.DarknessSpeedValues.PatrolSpeed =0;
+            p.DarknessSpeedValues.InvestigateSpeed=0;
+            p.DarknessSpeedValues.ChaseSpeed=0;
+            p.mesh.GlobalAnimRateScale =0;
+            P.Modifiers.bShouldAttack = false;
         }
         else if (p.Tag == 'Enemy')
         {
-        p.Tag = 'MadEnemy';
-        p.UpdateDifficultyBasedValues();
-        p.mesh.GlobalAnimRateScale =1;
-        P.Modifiers.bShouldAttack = true;
+            p.Tag = 'MadEnemy';
+            if (SMGame(WorldInfo.Game).DifficultyMode ==EDM_Normal){
+                P.NormalSpeedValues = P.NrmNormalSpeedValues;
+		        P.DarknessSpeedValues = P.NrmDarknessSpeedValues;
+		        P.ElectricitySpeedValues = P.NrmElectricitySpeedValues;
+            } else{
+                P.NormalSpeedValues = P.HardNormalSpeedValues;
+	    	    P.DarknessSpeedValues = P.HardDarknessSpeedValues;
+		        P.ElectricitySpeedValues = P.HardElectricitySpeedValues;
+            }
+            p.mesh.GlobalAnimRateScale =1;
+            P.Modifiers.bShouldAttack = true;
         }
     }
 }
@@ -76,8 +84,46 @@ exec function FreezeEnemy(bool freeze = true)
 exec function NoDamage()
 {
     Damage = !Damage;
-    if (!damage)
+    if (damage){
+        ClearTimer('DisableEnemyDamage');
+        ReEnableEnemyDamage();
+    } else{
         SMHero(Pawn).PreciseHealth = 100;
+        DisableEnemyDamage();
+        SetTimer(2.5, true, 'DisableEnemyDamage');
+    }
+}
+
+private function DisableEnemyDamage(){
+    local OLEnemyPawn P;
+
+    foreach WorldInfo.AllPawns(Class'OLEnemyPawn', P){
+        if (P.modifiers.bShouldAttack){
+            P.AttackNormalDamage = 0.0;
+	    	P.AttackThrowDamage = 0.0;
+		    P.DoorBashDamage = 0.0;
+		    P.VaultDamage = 0.0;
+        }
+    }
+}
+
+private function ReEnableEnemyDamage()
+{
+    local OLEnemyPawn P;
+
+    foreach WorldInfo.AllPawns(Class'OLEnemyPawn', P){
+        if (SMGame(WorldInfo.Game).DifficultyMode ==EDM_Normal){
+            P.AttackNormalDamage = P.NrmAttackNormalDamage;
+	    	P.AttackThrowDamage = P.NrmAttackThrowDamage;
+    		P.DoorBashDamage = P.NrmDoorBashDamage;
+	    	P.VaultDamage = P.NrmVaultDamage;
+        } else{
+    		p.AttackNormalDamage = P.HardAttackNormalDamage;
+	    	p.AttackThrowDamage = P.HardAttackThrowDamage;
+    		P.DoorBashDamage = P.HardDoorBashDamage;
+		    P.VaultDamage = P.HardVaultDamage;
+        }
+    }
 }
 
 Exec Function SetPlayerCollisionType(ECollision_Type Type)
