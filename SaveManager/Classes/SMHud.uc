@@ -162,5 +162,13 @@ Function Bool Vector2DInRange(Vector2D Target, Vector2D Vector1, Vector2D Vector
 }
 
 Function String VectorToString(Vector Target) {
-    return Target.X $ "," @ Target.Y $ "," @ Target.Z;
+    return FloatToString(Target.X)@ "|" @ FloatToString(Target.Y) @ "|" @ FloatToString(Target.Z);
+}
+
+function String FloatToString(float f){
+    local int fp, pp;
+
+    fp =int(f);
+    pp =int(abs(f -fp)*1000000+0.5);
+    return fp$"."$pp;
 }
