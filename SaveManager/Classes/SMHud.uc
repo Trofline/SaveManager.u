@@ -16,8 +16,8 @@ Function PostRender()
         Canvas.font =class'Engine'.static.GetSmallFont();    
         //DrawString("CheckPoint:"@string(SMGame(WorldInfo.Game).CurrentCheckpointName), vect2D(5, 5), MakeColor(255, 255, 200), vect2D(2, 2));
         DrawString("Location:"@VectorToString(Hero.location), vect2D(5, 5), MakeColor(0,0,255,200), vect2D(1.6, 1.6));
-        DrawString("Velocity:"@FloatToString(VSize(Hero.RealVelocity)),vect2D(5,21), MakeColor(0,0,255,200), vect2D(1.6, 1.6));
-        DrawString("Rotation:"@FloatToString(VSize(Hero.Forward)),vect2D(5,37), MakeColor(0,0,255,200), vect2D(1.6, 1.6));
+        DrawString("Rotation:"@FloatToString(Hero.CharForward.X)@"|"@FloatToString(Hero.CharForward.Y),vect2D(5,21), MakeColor(0,0,255,200), vect2D(1.6, 1.6));
+        DrawString("Velocity:"@FloatToString(VSize(Hero.RealVelocity)),vect2D(5,37), MakeColor(0,0,255,200), vect2D(1.6, 1.6));
     }
 }
 
