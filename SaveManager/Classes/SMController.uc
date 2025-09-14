@@ -76,7 +76,8 @@ exec function FreezeEnemy(bool freeze = true)
 exec function NoDamage()
 {
     Damage = !Damage;
-    SMHero(Pawn).PreciseHealth = 100;
+    if (!damage)
+        SMHero(Pawn).PreciseHealth = 100;
 }
 
 Exec Function SetPlayerCollisionType(ECollision_Type Type)

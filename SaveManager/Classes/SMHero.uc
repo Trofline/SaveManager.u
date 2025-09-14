@@ -3,7 +3,7 @@ class SMHero extends OLHero;
 
 event TakeDamage(int Damage, Controller InstigatedBy, vector HitLocation, vector Momentum, class<DamageType> DamageType, optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-    if(!SMController(Controller).Damage)
+    if(SMController(Controller).Damage)
     {
         super.TakeDamage(Damage,  InstigatedBy,  HitLocation,  Momentum, DamageType,  HitInfo, DamageCauser);
     }
@@ -11,7 +11,7 @@ event TakeDamage(int Damage, Controller InstigatedBy, vector HitLocation, vector
 
 function TakeFallingDamage()
 {
-    if(!SMController(Controller).Damage)
+    if(SMController(Controller).Damage)
     {
         super.TakeFallingDamage();
     }
@@ -20,8 +20,8 @@ function TakeFallingDamage()
 exec function ReloadCheckpoint()
 {
         if (LocomotionMode ==LM_Cinematic){
-        SMController(controller).StartNewGameAtCheckpoint(string(OLGame(WorldInfo.game).CurrentCheckPointName),false);
-        return;
+            SMController(controller).StartNewGameAtCheckpoint(string(OLGame(WorldInfo.game).CurrentCheckPointName),false);
+            return;
     }
 
     if(DeathScreenDuration >7){
