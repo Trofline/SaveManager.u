@@ -302,7 +302,7 @@ private function removeAllRecords(){
     }
 }
 
-exec function dummy(){
+exec function PlayerInfo(){
     bShowInfo = !bShowInfo;
 }
 
