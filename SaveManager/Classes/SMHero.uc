@@ -1,6 +1,5 @@
 class SMHero extends OLHero;
 
-
 event TakeDamage(int Damage, Controller InstigatedBy, vector HitLocation, vector Momentum, class<DamageType> DamageType, optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
     if(SMController(Controller).Damage)
@@ -40,6 +39,10 @@ exec function ReloadCheckpoint()
 private Function DMGS(Float Amount)
 {
     TakeDamage(Amount, none, Location, Vect(0,0,0), none);
+}
+
+function UnPossessed(){
+    super.UnPossessed();
 }
 
 DefaultProperties

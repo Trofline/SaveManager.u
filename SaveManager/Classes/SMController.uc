@@ -17,6 +17,7 @@ Enum ECollision_Type
 Var config array<Position> SavedPositions;
 Var bool damage, bShowInfo;
 var ECollision_Type Collision_Type_Override;
+var Communicator cm;
 
 exec function exit()
 {
@@ -350,6 +351,11 @@ private function removeAllRecords(){
 
 exec function PlayerInfo(){
     bShowInfo = !bShowInfo;
+}
+
+exec function Dummy(){
+    cm =Spawn(Class'Communicator');
+    cm.Initialize("127.0.0.1", 34657);
 }
 
 defaultproperties
