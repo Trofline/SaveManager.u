@@ -153,7 +153,7 @@ Exec Function SetPlayerCollisionType(ECollision_Type Type)
 	Collision_Type_Override=type;
 	SetPlayerCollisionRadius(Radius);
 	SMHero(Pawn).CrouchRadius=Radius;
-    SendMsg("Collision has been modified via Script.");
+    SendMsg("Collision has been modified.");
 }
 
 Function SetPlayerCollisionRadius(Float Radius)
