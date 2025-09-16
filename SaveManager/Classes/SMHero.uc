@@ -1,8 +1,16 @@
 class SMHero extends OLHero;
 
+var SMController Controller;
+
+function PossessedBy(Controller C, bool bVehicleTransition)
+{
+    super.PossessedBy(c, bVehicleTransition);
+    Controller =SMController(c);
+}
+
 event TakeDamage(int Damage, Controller InstigatedBy, vector HitLocation, vector Momentum, class<DamageType> DamageType, optional TraceHitInfo HitInfo, optional Actor DamageCauser)
 {
-    if(SMController(Controller).Damage)
+    if(Controller.Damage)
     {
         super.TakeDamage(Damage,  InstigatedBy,  HitLocation,  Momentum, DamageType,  HitInfo, DamageCauser);
     }
@@ -10,7 +18,7 @@ event TakeDamage(int Damage, Controller InstigatedBy, vector HitLocation, vector
 
 function TakeFallingDamage()
 {
-    if(SMController(Controller).Damage)
+    if(Controller.Damage)
     {
         super.TakeFallingDamage();
     }
@@ -19,7 +27,7 @@ function TakeFallingDamage()
 exec function ReloadCheckpoint()
 {
     if (LocomotionMode ==LM_Cinematic){
-        SMController(controller).StartNewGameAtCheckpoint(string(OLGame(WorldInfo.game).CurrentCheckPointName),false);
+        controller.LoadCheckPoint(string(OLGame(WorldInfo.game).CurrentCheckPointName));
         return;
     }
 

@@ -358,6 +358,22 @@ exec function Dummy(){
     cm.Initialize("127.0.0.1", 34657);
 }
 
+Exec Function LoadCheckpoint(String Checkpoint) {
+    local OLEnemyPawn P;
+    
+    if(Class'CPList'.static.IsCP(name(Checkpoint))) {
+        // ConsoleCommand("Streammap All_Checkpoints");
+        // Kill all enemies (for safety).
+        foreach WorldInfo.AllPawns(Class'OLEnemyPawn', P){
+            if (p.Bot !=none)
+                P.Bot.Destroy();
+            P.Destroy();
+        }
+        SMHero(Pawn).RespawnHero();
+        StartNewGameAtCheckpoint(Checkpoint, true);
+    }
+}
+
 defaultproperties
 {
     damage =true
