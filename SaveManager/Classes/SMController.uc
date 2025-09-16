@@ -369,10 +369,14 @@ exec function SaveCheckpoint(String CP){
     SavedCheckpointName =CP;
 }
 
-Exec Function LoadCheckpoint() {
+exec function LoadCheckpoint(){
+    CP(SavedCheckpointName);
+}
+
+Function CP(String CP) {
     local OLEnemyPawn P;
     
-    if(Class'CPList'.static.IsCP(name(SavedCheckpointName))) {
+    if(Class'CPList'.static.IsCP(name(CP))) {
         // ConsoleCommand("Streammap All_Checkpoints");
         // Kill all enemies (for safety).
         foreach WorldInfo.AllPawns(Class'OLEnemyPawn', P){
@@ -381,7 +385,7 @@ Exec Function LoadCheckpoint() {
             P.Destroy();
         }
         SMHero(Pawn).RespawnHero();
-        StartNewGameAtCheckpoint(SavedCheckpointName, true);
+        StartNewGameAtCheckpoint(CP, true);
     }
 }
 

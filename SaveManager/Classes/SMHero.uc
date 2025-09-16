@@ -27,14 +27,14 @@ function TakeFallingDamage()
 exec function ReloadCheckpoint()
 {
     if (LocomotionMode ==LM_Cinematic){
-        controller.LoadCheckPoint(string(OLGame(WorldInfo.game).CurrentCheckPointName));
+        controller.CP(string(OLGame(WorldInfo.game).CurrentCheckPointName));
         return;
     }
 
     if(DeathScreenDuration >7){
         DeathScreenDuration =0;
     }
-    if(LocomotionMode ==LM_Locker ||  LocomotionMode ==LM_Bed || !SMController(Controller).Damage)
+    if(LocomotionMode ==LM_Locker ||  LocomotionMode ==LM_Bed || !Controller.Damage)
     {
         PreciseHealth =0;
     }
