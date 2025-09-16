@@ -365,8 +365,8 @@ Function SendMsg(String Msg, Float LifeTime=3.0)
     SMHud(HUD).AddConsoleMessage(Msg, Class'LocalMessage', PlayerReplicationInfo, LifeTime);
 }
 
-exec function SaveCheckpoint(String CP){
-    SavedCheckpointName =CP;
+exec function SaveCheckpoint(){
+    SavedCheckpointName =string(OLGame(WorldInfo.game).CurrentCheckPointName);
 }
 
 exec function LoadCheckpoint(){
