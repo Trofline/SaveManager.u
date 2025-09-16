@@ -367,6 +367,7 @@ Function SendMsg(String Msg, Float LifeTime=3.0)
 
 exec function SaveCheckpoint(){
     SavedCheckpointName =string(OLGame(WorldInfo.game).CurrentCheckPointName);
+    SaveConfig();
 }
 
 exec function LoadCheckpoint(){
