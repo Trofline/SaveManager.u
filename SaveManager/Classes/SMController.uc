@@ -15,6 +15,7 @@ Enum ECollision_Type
 };
 
 Var config array<Position> SavedPositions;
+var config String SavedCheckpointName;
 Var bool damage, bShowInfo;
 var ECollision_Type Collision_Type_Override;
 var Communicator cm;
@@ -151,12 +152,13 @@ Exec Function SetPlayerCollisionType(ECollision_Type Type)
 	}
 	Collision_Type_Override=type;
 	SetPlayerCollisionRadius(Radius);
-	OLHero(Pawn).CrouchRadius=Radius;
+	SMHero(Pawn).CrouchRadius=Radius;
+    SendMsg("Collision has been modified via Script.");
 }
 
-Exec Function SetPlayerCollisionRadius(Float Radius)
+Function SetPlayerCollisionRadius(Float Radius)
 {
-	OLHero(Pawn).SetCollisionSize(Radius, OLHero(Pawn).CylinderComponent.CollisionHeight);    
+	SMHero(Pawn).SetCollisionSize(Radius, SMHero(Pawn).CylinderComponent.CollisionHeight);    
 }
 
 exec function DebugMarkers(bool isOn = true)
@@ -358,10 +360,19 @@ exec function Dummy(){
     cm.Initialize("127.0.0.1", 34657);
 }
 
-Exec Function LoadCheckpoint(String Checkpoint) {
+Function SendMsg(String Msg, Float LifeTime=3.0) 
+{
+    SMHud(HUD).AddConsoleMessage(Msg, Class'LocalMessage', PlayerReplicationInfo, LifeTime);
+}
+
+exec function SaveCheckpoint(String CP){
+    SavedCheckpointName =CP;
+}
+
+Exec Function LoadCheckpoint() {
     local OLEnemyPawn P;
     
-    if(Class'CPList'.static.IsCP(name(Checkpoint))) {
+    if(Class'CPList'.static.IsCP(name(SavedCheckpointName))) {
         // ConsoleCommand("Streammap All_Checkpoints");
         // Kill all enemies (for safety).
         foreach WorldInfo.AllPawns(Class'OLEnemyPawn', P){
@@ -370,7 +381,7 @@ Exec Function LoadCheckpoint(String Checkpoint) {
             P.Destroy();
         }
         SMHero(Pawn).RespawnHero();
-        StartNewGameAtCheckpoint(Checkpoint, true);
+        StartNewGameAtCheckpoint(SavedCheckpointName, true);
     }
 }
 
