@@ -2,11 +2,14 @@ class SMHud extends OLHUD;
 
 var color PushColor;
 var String Command, StrPushMessage;
+var SMController controller;
+
 
 Function PostRender()
 {
     local SMController c;
     local SMHero Hero;
+    
 
     c =SMController(PlayerOwner);
 
@@ -20,6 +23,7 @@ Function PostRender()
         DrawString("Velocity:"@FloatToString(VSize(Hero.RealVelocity)),vect2D(5,37), MakeColor(0,0,255,200), vect2D(1.6, 1.6));
     }
 }
+
 
 /************************OTHER FUNCTIONS************************/
 
@@ -173,4 +177,12 @@ function String FloatToString(float f){
     fp =int(f);
     pp =int(abs(f -fp)*1000000+0.5);
     return fp$"."$pp;
+}
+
+event OnLostFocusPause(bool bEnable)
+{
+    if(controller.pauseLoss)
+    {
+        super.OnLostFocusPause(bEnable);
+    }
 }

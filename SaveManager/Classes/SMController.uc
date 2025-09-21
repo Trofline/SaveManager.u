@@ -16,6 +16,7 @@ Enum ECollision_Type
 
 Var config array<Position> SavedPositions;
 var config String SavedCheckpointName;
+var config bool pauseLoss;
 Var bool damage, bShowInfo;
 var ECollision_Type Collision_Type_Override;
 var Communicator cm;
@@ -126,6 +127,12 @@ private function ReEnableEnemyDamage()
 		    P.VaultDamage = P.HardVaultDamage;
         }
     }
+}
+
+exec function switchPause(bool value = true)
+{
+    pauseLoss = Value;
+    SaveConfig();
 }
 
 Exec Function SetPlayerCollisionType(ECollision_Type Type)
